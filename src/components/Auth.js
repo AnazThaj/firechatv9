@@ -6,8 +6,12 @@ const cookies = new Cookies();
 
 export const Auth = () => {
   const signInWithGoogle = async () => {
-    const result = await signInWithPopup(auth, provider);
-    cookies.set("auth-token", result.user.refreshToken);
+    try {
+      const result = await signInWithPopup(auth, provider);
+      cookies.set("auth-token", result.user.refreshToken);
+    } catch (err) {
+      console.error(err);
+    }
   };
   return (
     <div className="auth">
