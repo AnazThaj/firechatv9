@@ -14,7 +14,7 @@ function Chat(props) {
 
     await addDoc(messageRef, {
       text: newMessage,
-      createdAt: serverTimestamp,
+      createdAt: serverTimestamp(),
       user: auth.currentUser.displayName,
       room,
     });
@@ -28,6 +28,7 @@ function Chat(props) {
           className="new-message-input"
           placeholder="Type your message here..."
           onChange={(e) => setNewMessage(e.target.value)}
+          value={newMessage}
         />
 
         <button className="sent-button" type="submit">
