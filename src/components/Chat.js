@@ -1,10 +1,24 @@
 import React, { useState } from "react";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { db, auth } from "../firebase";
 
-function Chat() {
+function Chat(props) {
+  const { room } = props;
   const [newMessage, setNewMessage] = useState("");
 
-  const handleSubmit = (e) => {
+  const messageRef = collection(db, "messages");
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    if (newMessage === "") return;
+
+    await addDoc(messageRef, {
+      text: newMessage,
+      createdAt: serverTimestamp,
+      user: auth.currentUser.displayName,
+      room,
+    });
+    setNewMessage("");
   };
 
   return (
