@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { db, auth } from "../firebase";
+import "../styles/Chat.css";
 
 function Chat(props) {
   const { room } = props;
