@@ -3,6 +3,8 @@ import "./App.css";
 import { Auth } from "./components/Auth";
 import Chat from "./components/Chat";
 import Cookies from "universal-cookie";
+import { signOut } from "firebase/auth";
+import { auth } from "./firebase";
 
 const cookies = new Cookies();
 
@@ -11,6 +13,13 @@ function App() {
   const [room, setRoom] = useState(null);
 
   const roomInputRef = useRef(null);
+
+  const signUserOut = async () => {
+    await signOut(auth);
+    cookies.remove("auth-token");
+    setIsAuth(false);
+    setRoom(null);
+  };
 
   if (!isAuth) {
     return (
@@ -21,7 +30,7 @@ function App() {
   }
 
   return (
-    <div>
+    <>
       {room ? (
         <Chat room={room} />
       ) : (
@@ -33,7 +42,13 @@ function App() {
           </button>
         </div>
       )}
-    </div>
+
+      <div className="auth">
+        <div className="sign-out">
+          <button onClick={signUserOut}>Sign Out</button>
+        </div>
+      </div>
+    </>
   );
 }
 
